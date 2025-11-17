@@ -1,0 +1,55 @@
+# -------------------------
+# Ansible / AWX
+# -------------------------
+
+# Private inventories
+inventory/*.ini
+inventory/*.yaml
+inventory/*.yml
+inventory/hosts
+inventory/hosts.yml
+inventory/*.vault
+inventory/group_vars/*vault*
+inventory/host_vars/*vault*
+
+# Local passwords, vault files, tokens, keys
+*.vault_pass
+*.vault_pass.txt
+.vault_pass
+secret.yml
+secrets.yml
+*.key
+*.pem
+
+# SSH keys
+*.pub
+*.key
+id_rsa
+id_rsa.pub
+id_ed25519
+id_ed25519.pub
+
+# AWX runtime files
+.awx/
+.ansible/
+.ansible_tmp/
+
+# Logs
+*.log
+logs/
+ansible.log
+
+# Python artifacts (if using dynamic inventory or scripts)
+__pycache__/
+*.pyc
+
+# Editor junk
+*.swp
+*.swo
+.DS_Store
+.idea/
+.vscode/
+
+# Temporary files
+*.retry
+tmp/
