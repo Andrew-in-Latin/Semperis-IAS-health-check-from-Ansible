@@ -7,6 +7,7 @@
   become_user: root
 
   tasks:
+
     - name: Show which SSH user AWX is using
       ansible.builtin.debug:
         var: ansible_user
@@ -19,15 +20,36 @@
       ansible.builtin.debug:
         var: uptime_result.stdout
 
+
+    #################################################################
+    # MicroK8s STATUS
+    #################################################################
     - name: microk8s status
       ansible.builtin.command: microk8s status
       register: microk8s_status
-      failed_when: false
+      failed_when: false     # MicroK8s may return non-zero sometimes
 
     - name: Show microk8s status
       ansible.builtin.debug:
         var: microk8s_status.stdout_lines
 
+
+    #################################################################
+    # MicroK8s VERSION
+    #################################################################
+    - name: microk8s version
+      ansible.builtin.command: microk8s version
+      register: microk8s_version
+      failed_when: false
+
+    - name: Show microk8s version
+      ansible.builtin.debug:
+        var: microk8s_version.stdout_lines
+
+
+    #################################################################
+    # Kubernetes pods
+    #################################################################
     - name: kubectl get pods -A
       ansible.builtin.command: kubectl get pods -A
       register: pods
