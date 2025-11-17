@@ -38,7 +38,7 @@
     # MicroK8s VERSION
     #################################################################
     - name: microk8s version
-      ansible.builtin.command: microk8s version
+      ansible.builtin.command: microk8s kubectl version
       register: microk8s_version
       failed_when: false
 
