@@ -22,16 +22,22 @@
 
 
     #################################################################
-    # MicroK8s STATUS
+    # MicroK8s STATUS (clean, simple: running / not running)
     #################################################################
     - name: microk8s status
       ansible.builtin.command: microk8s status
       register: microk8s_status
-      failed_when: false     # MicroK8s may return non-zero sometimes
+      failed_when: false
 
-    - name: Show microk8s status
+    - name: Extract simple MicroK8s running status
+      ansible.builtin.set_fact:
+        microk8s_simple_status: >-
+          {{ 'running' if 'microk8s is running' in microk8s_status.stdout
+             else 'not running' }}
+
+    - name: Show MicroK8s simple status
       ansible.builtin.debug:
-        var: microk8s_status.stdout_lines
+        msg: "MicroK8s is {{ microk8s_simple_status }}"
 
 
     #################################################################
