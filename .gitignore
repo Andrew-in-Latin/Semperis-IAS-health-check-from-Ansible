@@ -3,14 +3,20 @@
 # -------------------------
 
 # Private inventories
-inventory/*.ini
-inventory/*.yaml
-inventory/*.yml
-inventory/hosts
-inventory/hosts.yml
 inventory/*.vault
 inventory/group_vars/*vault*
 inventory/host_vars/*vault*
+
+# Ignore vault & secret files
+inventory/*vault*
+inventory/*password*
+inventory/*secrets*
+inventory/*key*
+inventory/*.pem
+
+# BUT allow the inventory folder itself and the hosts.yml file
+!inventory/
+!inventory/hosts.yml
 
 # Local passwords, vault files, tokens, keys
 *.vault_pass
