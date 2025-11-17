@@ -2,38 +2,35 @@
 - name: IAS health check
   hosts: ias_nodes
   gather_facts: false
-  become: true   # run commands as root via sudo
+  become: true      # run commands via sudo
+  become_method: sudo
 
   tasks:
     - name: Show uptime
       ansible.builtin.command: uptime
       register: uptime_result
 
-    - name: Print uptime
-      ansible.builtin.debug:
+    - ansible.builtin.debug:
         var: uptime_result.stdout
 
-    - name: Show microk8s status
+    - name: microk8s status
       ansible.builtin.command: microk8s status
       register: microk8s_status
-      failed_when: false   # don't fail whole job if status is non-zero
+      failed_when: false
 
-    - name: Print microk8s status
-      ansible.builtin.debug:
+    - ansible.builtin.debug:
         var: microk8s_status.stdout_lines
 
-    - name: Show microk8s version
+    - name: microk8s version
       ansible.builtin.command: microk8s version
       register: microk8s_version
 
-    - name: Print microk8s version
-      ansible.builtin.debug:
+    - ansible.builtin.debug:
         var: microk8s_version.stdout_lines
 
     - name: kubectl get pods -A
-      ansible.builtin.command: kubectl get pods -A
+      ansible.builtin.command: microk8s kubectl get pods -A
       register: pods
 
-    - name: Print kubectl pods output
-      ansible.builtin.debug:
+    - ansible.builtin.debug:
         var: pods.stdout_lines

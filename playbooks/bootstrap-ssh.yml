@@ -1,0 +1,20 @@
+---
+- name: Bootstrap SSH access for AWX
+  hosts: ias_nodes
+  gather_facts: false
+  become: false    # we log in directly as andrew
+
+  tasks:
+    - name: Ensure .ssh directory exists for andrew
+      ansible.builtin.file:
+        path: /home/andrew/.ssh
+        state: directory
+        owner: andrew
+        group: andrew
+        mode: '0700'
+
+    - name: Install AWX public key in authorized_keys
+      ansible.posix.authorized_key:
+        user: andrew
+        state: present
+        key: "{{ awx_pubkey }}"
