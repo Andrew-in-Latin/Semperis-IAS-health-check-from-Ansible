@@ -1,4 +1,8 @@
 ---
+- name: Show which SSH user AWX is using
+  debug:
+    var: ansible_user
+
 - name: IAS health check
   hosts: ias_nodes
   gather_facts: false
