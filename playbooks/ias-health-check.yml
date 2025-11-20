@@ -5,14 +5,16 @@
   become: true
   become_method: sudo
   become_user: root
+  vars_files:
+    - ../group_vars/all/vault.yml
 
   tasks:
-
     - name: Show which SSH user AWX is using
       ansible.builtin.debug:
         var: ansible_user
 
     - name: Show uptime
+      become: true
       ansible.builtin.command: uptime
       register: uptime_result
 
