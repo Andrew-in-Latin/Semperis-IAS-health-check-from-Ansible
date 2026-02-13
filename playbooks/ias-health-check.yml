@@ -14,7 +14,6 @@
         var: ansible_user
 
     - name: Show uptime
-      become: true
       ansible.builtin.command: uptime
       register: uptime_result
 
@@ -54,6 +53,34 @@
       ansible.builtin.debug:
         var: microk8s_version.stdout_lines
 
+    #################################################################
+    # Check resources
+    #################################################################
+
+    - name: Check CPU usage
+      ansible.builtin.shell: |
+        top -bn1 | grep "Cpu(s)" | awk '{print "CPU Usage: " 100 - $8 "%"}'
+      register: cpu_usage
+
+    - name: Show CPU usage
+      ansible.builtin.debug:
+        var: cpu_usage.stdout
+
+    - name: Check RAM usage
+      ansible.builtin.command: free -h
+      register: ram_usage
+
+    - name: Show RAM usage
+      ansible.builtin.debug:
+        var: ram_usage.stdout_lines
+
+    - name: Check disk space
+      ansible.builtin.command: df -h --type=ext4 --type=xfs
+      register: disk_usage
+
+    - name: Show disk space
+      ansible.builtin.debug:
+        var: disk_usage.stdout_lines
 
     #################################################################
     # Kubernetes pods
