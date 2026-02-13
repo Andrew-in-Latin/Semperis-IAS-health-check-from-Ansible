@@ -75,8 +75,9 @@
         var: ram_usage.stdout_lines
 
     - name: Check disk space
-      ansible.builtin.command: df -h --type=ext4 --type=xfs
+      ansible.builtin.command: df -h / /data/elastic01 /kube /var/log
       register: disk_usage
+      failed_when: false
 
     - name: Show disk space
       ansible.builtin.debug:
